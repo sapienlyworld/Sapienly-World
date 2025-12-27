@@ -1,106 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SAPIENLY.WORLD | The Silent Theories</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Silent Theories — Sapienly.World</title>
+    <meta name="title" content="The Silent Theories - Sapienly.World">
+<meta name="description" content="A calm, editorial space exploring psychology, neuroscience, memory, identity, and the quiet transformations of being human.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sapienly.world/home/">
+<meta property="og:title" content="The Silent Theories - Sapienly.World">
+<meta property="og:description" content="Exploring the deeper questions of the brain and mind—one story at a time.">
+<meta property="og:image" content="https://sapienly.world/assets/preview-image.jpg">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://sapienly.world/home/">
+<meta property="twitter:title" content="The Silent Theories — Sapienly.World">
+<meta property="twitter:description" content="Exploring the deeper questions of the brain and mind—one story at a time.">
+<meta property="twitter:image" content="https://sapienly.world/assets/preview-image.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --bg:#0a0a0a;
+  --paper:#f6f6f4;
+  --ink:#111;
+  --soft:#aaa;
+  --accent:#ffd23c;
+  --dynamic:#ffdc33;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;scroll-behavior:smooth;font-family:Inter,system-ui;background:var(--bg);color:#fff;overflow-x:hidden}
+
+/* NAV - DESKTOP */
+nav {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,10,0.5);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+@media(min-width: 1025px) {
+  nav:hover { transform: translateX(-50%) scale(1.02); }
+}
+
+.logo{font-weight:900;letter-spacing:.2em;color:var(--accent);font-size:1.5rem;text-decoration:none; white-space: nowrap;}
+.top-tab{display:flex;gap:2rem;}
+.top-tab a{color:#fff;text-decoration:none;font-weight:600;padding:.5rem 1rem;border-radius:12px;position:relative;transition:all .3s ease;}
+.top-tab a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+.top-tab a:hover::after{transform:scaleX(1);}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1001;
+}
+.menu-toggle span {
+  width: 25px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Cursor Elements */
+.cursor, .cursor-outer{position:fixed;border-radius:50%;pointer-events:none;z-index:2000;mix-blend-mode:difference;transform:translate(-50%,-50%);} 
+.cursor{width:12px;height:12px;background:var(--accent);} 
+.cursor-outer{width:36px;height:36px;border:2px solid var(--accent);} 
+
+/* Hero */
+.hero{height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;} 
+.hero-bg{position:absolute;inset:0; background: linear-gradient(135deg, #1a1a2e, #162447, #1f4068, #e43f5a, #ff9a9e); background-size: 600% 600%; animation: gradientBG 5s ease infinite;} 
+@keyframes gradientBG{0%{background-position:0% 50%;}25%{background-position:50% 0%;}50%{background-position:100% 50%;}75%{background-position:50% 100%;}100%{background-position:0% 50%;}} 
+.hero-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 3rem;} 
+.hero h1{font-size:clamp(3.5rem,10vw,9rem);line-height:.9;margin:0;font-weight:900;background: linear-gradient(90deg, #ffd23c, #ff77a9, #6c5ce7);-webkit-background-clip: text;-webkit-text-fill-color: transparent;} 
+.hero p{max-width:460px;margin-top:1.5rem;color:var(--soft);opacity:0;transform:translateY(20px);} 
+.scroll-indicator{margin-top:4rem;font-size:.7rem;letter-spacing:.35em;color:var(--accent);animation: bounce 2s infinite;} 
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}} 
+
+/* Sections */
+section{min-height:100vh;display:flex;align-items:center;position:relative;transition:background 0.8s ease; padding: 4rem 0;} 
+.wrap{max-width:1100px;margin:0 auto;padding:0 3rem;} 
+
+.light{background:var(--paper);color:var(--ink)} 
+.dark{background:var(--bg);color:#fff}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;} 
+
+/* Themes/Tiles */
+.discovery{display:flex;gap:1rem;flex-wrap: wrap; padding:1.5rem 0;} 
+.tile{flex:0 0 auto;background:#111;color:#fff;padding:0.8rem 1.2rem;cursor:pointer;transition:all .4s ease;border-radius:12px;opacity:.7; font-size: 0.8rem; font-weight: 600;} 
+.tile.active{opacity:1 !important;border:2px solid var(--accent);box-shadow:0 10px 20px rgba(255,210,60,.3);} 
+
+/* Cards Container */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:4rem;margin-top:2rem} 
+.card{
+  background:#111;
+  color:#fff;
+  padding:3.5rem;
+  border-radius:16px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+  position:relative;
+  overflow:hidden; 
+  cursor: pointer; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transform-style: preserve-3d;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,210,60,.2),rgba(255,255,255,.05));
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+@media(min-width: 1025px) {
+  .card:hover::before{opacity:1;} 
+  .card:hover {
+    transform: translateY(-6px) rotateY(3deg);
+    box-shadow: 0 25px 50px rgba(255, 210, 60, 0.25);
+  }
+}
+
+.light-divider{width:100%;height:2px;position:relative;background:linear-gradient(90deg,transparent,rgba(100,180,255,0.6),rgba(120,200,255,1),rgba(100,180,255,0.6),transparent);background-size:200% 100%;animation:lightFlow 6s linear infinite;margin:0;} 
+#facet-collections{padding-top:6rem; padding-bottom:6rem;} 
+
+footer{background:#000;padding:6rem 3rem;font-size:.85rem;color:#aaa;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem} 
+.footer-btn{background:#111;color:#fff;padding:.75rem 1.5rem;border-radius:12px;text-decoration:none;display:inline-block;transition:all 0.3s ease;} 
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:3000;overflow-y:auto;padding:2rem} 
+.overlay.active{display:flex} 
+.overlay-content{background:#111;color:#fff;max-width:700px;padding:3rem;border-radius:12px;} 
+
+@keyframes lightFlow{from{background-position:0% 50%;}to{background-position:200% 50%;}} 
+
+/* MOBILE & TABLET RESPONSIVENESS */
+@media(max-width:1024px){
+  /* 1. Explicitly Remove Cursor on Mobile */
+  .cursor, .cursor-outer { display: none !important; visibility: hidden !important; }
+
+  .wrap { padding: 0 1.5rem; width: 100%; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  
+  /* 2. Horizontal Carousel Style for Cards */
+  .cards {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.5rem;
+    padding: 1rem 0 2.5rem 0; /* Extra bottom padding for scroll shadow/bar */
+    margin-top: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+  .cards::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
+  .card {
+    flex: 0 0 85%; /* Shows 85% of card + peek of next */
+    scroll-snap-align: center;
+    padding: 2.5rem 2rem;
+    transform: none !important; /* No hover tilt on mobile */
+  }
+
+  nav { padding: 0.8rem 1.5rem; width: 92%; top: 0.8rem; }
+  .logo { font-size: 1.1rem; }
+  .menu-toggle { display: flex; }
+  
+  .top-tab {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    background: rgba(10,10,10,0.98);
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 15px;
+    gap: 1rem;
+    display: none;
+    border: 1px solid rgba(255,210,60,0.2);
+  }
+  .top-tab.active { display: flex; }
+  .hero h1 { font-size: 3.5rem; }
+  .discovery { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+  .discovery::-webkit-scrollbar { display: none; }
+  .tile { white-space: nowrap; }
+}
+</style>
 </head>
-
 <body>
-
-<div id="cursor"></div>
-
+<div class="cursor"></div>
+<div class="cursor-outer"></div>
 <nav>
-    <a href="#" class="nav-logo">Sapienly.World</a>
+  <a href="#hero" class="logo">SAPIENLY.WORLD</a>
+  <div class="menu-toggle" id="mobile-menu">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="top-tab" id="nav-links">
+    <a href="#about">ABOUT</a>
+    <a href="#facet-collections">COLLECTIONS</a>
+    <a href="#contact">CONTACT</a>
+  </div>
 </nav>
 
-<div class="floating-blob" style="width: 500px; height: 500px; background: var(--cyber-blue); top: 5%; left: -10%;" data-speed="0.2"></div>
-<div class="floating-blob" style="width: 400px; height: 400px; background: var(--action-yellow); bottom: 10%; right: -5%;" data-speed="0.5"></div>
-
-<section class="hero container">
-    <div class="logo-wrap">
-        <h1 class="logo-main">The Silent<br>Theories.</h1>
-        <div class="hero-sub">
-            <p class="mb-0 fw-bold text-uppercase small" style="letter-spacing: 1px;">A digital space for the unwritten experiences.</p>
-        </div>
-    </div>
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <h1 id="heroTitle">The Silent Theories</h1>
+    <p>A calm, editorial space exploring psychology, neuroscience, memory, identity, and the quiet transformations of being human.</p>
+    <div class="scroll-indicator">SCROLL TO EXPLORE</div>
+  </div>
 </section>
 
-<section class="container py-5">
-    <div class="row">
-        <div class="col-lg-10 gsap-reveal">
-            <h2 class="display-3 fw-bold text-uppercase mb-4" style="font-family: 'Bangers';">About <span style="color: var(--cyber-blue)">Us.</span></h2>
-            <div class="fs-5 fw-medium mb-5" style="line-height: 1.6;">
-                Sapienly.world is a personal writing space that explores how the human brain experiences change, memory, identity, emotion, and meaning. The site brings together narrative reflection and insights from psychology and neuroscience to examine everyday inner experiences that are rarely spoken about, Whether it's the struggle to reconnect with your mother tongue after years abroad or managing the fog of depression, these stories deserve to be told not as medical cases, but as human experiences.
-                <br><br>
-                Each month, Sapienly.world publishes a themed collection consisting of two essays, approaching a single topic from different psychological or experiential angles. The themes may range from language and memory to perception, emotion, Cross cultural transition and other questions rooted in brain and mind sciences.
-                <br><br>
-                <span class="opacity-75 fs-6">Sapienly.world is not <strong>Not</strong> a social network, <strong>Not</strong> a mental health service, and <strong>Not</strong> a university. It is intentionally calm, minimal, and human. <strong> “Read our disclaimer below to understand the purpose of this content.” <strong></span>
-            </div>
-        </div>
-    </div>
+<section class="dark" id="about">
+  <div class="wrap about-grid">
+    <h2>About<br><i>Sapienly.world</i></h2>
+    <p>Sapienly.world is a personal writing space that explores how the human brain experiences change, memory, identity, emotion, and meaning. The site brings together narrative reflection and insights from psychology and neuroscience to examine everyday inner experiences that are rarely spoken about, Whether it's the struggle to reconnect with your mother tongue after years abroad or managing the fog of depression, these stories deserve to be told not as medical cases, but as human experiences.
+<br><br>
+Each month, Sapienly.world publishes a themed collection consisting of two essays, approaching a single topic from different psychological or experiential angles. The themes may range from language and memory to perception, emotion, Cross cultural transition and other questions rooted in brain and mind sciences.
+<br><br>
+<i>Sapienly.world is not Not a social network, Not a mental health service, and Not a university. It is intentionally calm, minimal, and human. “Read our disclaimer below to understand the purpose of this content.”</i></p>
+  </div>
 </section>
 
-<section class="container py-4">
-    <div class="gsap-reveal">
-        <h2 class="display-4 fw-bold text-uppercase mb-2" style="font-family: 'Bangers';">Identity In Between - First collection </h2>
-        <p class="lead fw-bold text-uppercase">Coming Soon / Early 2026</p>
+<section class="light" id="facet-collections">
+  <div class="wrap">
+    <h2>Explore Collections</h2>
+
+    <div class="discovery">
+      <div class="tile active" data-filter="all">ALL</div>
+      <div class="tile" data-filter="identity">IDENTITY IN BETWEEN</div>
+      <div class="tile" data-filter="adulthood">ADULTHOOD</div>
+      <div class="tile" data-filter="fashion">FASHION</div>
+      <div class="tile" data-filter="aged-care">AGED CARE</div>
+      <div class="tile" data-filter="memory">MEMORY</div>
     </div>
+
+    <div class="cards">
+      <div class="card panel" data-theme="identity">
+        <h3>The Guilt of Becoming Someone Else</h3>
+        <p>Subtle shifts in self and belonging after transitions across places, people, and identity. <br><br>STATUS: INKING...</p>
+      </div>
+      <div class="card panel" data-theme="identity">
+        <h3>Losing Fluency in Your Own Language</h3>
+        <p>What happens to our memories when we lose fluency in our mother tongue? <br><br>STATUS: INKING...</p>
+      </div>
+      <div class="card panel" data-theme="adulthood">
+        <h3>Becoming Dependent</h3>
+        <p>About coping, escape, and subtle dependence<br><br>STATUS: INKING...</p>
+      </div>
+      <div class="card panel" data-theme="adulthood">
+        <h3>The comfort of avoidance</h3>
+        <p>The Soft Pull of Escape<br><br>STATUS: INKING...</p>
+      </div>
+      <div class="card panel" data-theme="fashion">
+        <h3>Dressed to Disappear</h3>
+        <p>When Clothes Speak Louder Than You<br><br>STATUS: INKING...</p>
+      </div>
+      <div class="card panel" data-theme="fashion">
+        <h3>Wearing belonging </h3>
+        <p>How appearance reshapes confidence and belonging across cultures.<br><br>STATUS: INKING...</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="container my-5">
-    <div class="row g-4 g-md-5">
-        <div class="col-md-6 gsap-reveal">
-            <div class="comic-card">
-                <span class="card-num">01</span>
-                <h3 class="fw-bold text-uppercase mb-3" style="font-family: 'Bangers';">The Guilt of Becoming Someone Else</h3>
-                <p class="fw-medium">Subtle shifts in self and belonging after transitions across places, people, and identity.</p>
-                <hr style="border-top: 3px solid #000; width: 50px;">
-                <small class="fw-black text-uppercase">Status: Inking...</small>
-            </div>
-        </div>
-        <div class="col-md-6 gsap-reveal">
-            <div class="comic-card">
-                <span class="card-num">02</span>
-                <h3 class="fw-bold text-uppercase mb-3" style="font-family: 'Bangers';">Losing Fluency in Your Own Language</h3>
-                <p class="fw-medium">What happens to our memories when we lose fluency in our mother tongue?</p>
-                <hr style="border-top: 3px solid #000; width: 50px;">
-                <small class="fw-black text-uppercase">Status: Inking...</small>
+<div class="light-divider" aria-hidden="true"></div>
+
+<footer id="contact">
+  <p>Disclaimer: All content is a narrative reflection informed by existing research and does not diagnose, label, or treat any condition. It should not be used as a substitute for professional consultation, diagnosis, or treatment. If any content evokes distress, readers are encouraged to seek support from a trusted person or a qualified healthcare professional.
+<br><br>This site and its essays are written and maintained by Vedantham Nrusimha Bharadwaj - Join my space to feel a little less alone, while exploring the deeper questions of the brain and mind - one story at a time.</p>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+    <a href="mailto:sapienly.world@gmail.com" class="footer-btn">sapienly.world@gmail.com</a>
+    <a href="https://instagram.com/sapienly.world/" target="_blank" class="footer-btn">Instagram</a>
+  </div>
+  <p>© 2025 Sapienly.world. All rights reserved.</p>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-content">
+    <h3 id="overlayTitle"></h3>
+    <p>This essay will open as a full narrative chapter.</p>
+    <br><button onclick="closeOverlay()">Close</button>
+  </div>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.getElementById('nav-links');
+mobileMenu.addEventListener('click', () => navLinks.classList.toggle('active'));
+document.querySelectorAll('.top-tab a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('active'));
+});
+
+const cursor=document.querySelector('.cursor');
+const cursorOuter=document.querySelector('.cursor-outer');
+
+// Enhanced Cursor removal for mobile view
+if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1024) {
+  cursor.style.display = "none";
+  cursorOuter.style.display = "none";
+} else {
+  window.addEventListener('mousemove',e=>{
+    gsap.to(cursor,{x:e.clientX,y:e.clientY,duration:.15});
+    gsap.to(cursorOuter,{x:e.clientX,y:e.clientY,duration:.25});
+    if(window.innerWidth > 1024) {
+      gsap.to('.hero-inner',{x:(e.clientX/window.innerWidth-0.5)*20,y:(e.clientY/window.innerHeight-0.5)*20,duration:.6});
+    }
+  });
+}
+
+document.querySelectorAll('.panel').forEach((p,i)=>{
+  // Desktop entry animations
+  if(window.innerWidth > 1024) {
+    gsap.from(p,{rotateY:i%2?8:-8,z:-100,opacity:0,scrollTrigger:{trigger:p,start:'top 80%',once:true}});
+  } else {
+    // Mobile horizontal cards don't need entry animation based on vertical scroll
+    gsap.set(p, {opacity: 1, y: 0});
+  }
+  
+  p.onclick=()=>{
+    document.getElementById('overlay').classList.add('active');
+    document.getElementById('overlayTitle').innerText=p.querySelector('h3')?.innerText || p.innerText;
+  }
+});
+
+function closeOverlay(){document.getElementById('overlay').classList.remove('active');}
+
+const tiles = document.querySelectorAll('#facet-collections .tile');
+const collections = document.querySelectorAll('#facet-collections .card');
+const cardsWrapper = document.querySelector('.cards');
+
+tiles.forEach(tile => {
+  tile.addEventListener('click', () => {
+    const filter = tile.dataset.filter;
+    tiles.forEach(t => t.classList.remove('active'));
+    tile.classList.add('active');
     
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="cta-section">
-    <div class="container text-center cta-content gsap-reveal">
-        <h2 class="cta-header fw-bold text-uppercase">Wait for the ink to dry.</h2>
-        <p class="fs-4 fw-bold mb-0">The first collection arrives in early 2026.</p>
-    </div>
-</section>
-
-<footer class="py-5 text-center">
-    <p class="small fw-bold opacity-50 px-3">
-      Disclaimer:
-        <br><br>All content is a narrative reflection informed by existing research and does not diagnose, label, or treat any condition. It should not be used as a substitute for professional consultation, diagnosis, or treatment. If any content evokes distress, readers are encouraged to seek support from a trusted person or a qualified healthcare professional.
-        <br><br>
-        <br><br>
-        <br><br>
-         <span class="opacity-60 fs-10">This site and its essays are written and maintained by Vedantham Nrusimha Bharadwaj - Join my space to feel a little less alone, while exploring the deeper questions of the brain and mind - one story at a time.</span>
-        <br><br>
-       Contact: sapienly.world@gmail.com | <a href="https://www.instagram.com/sapienly.world/" target="_blank">Instagram</a><br>
-        © 2025 Sapienly.world. All rights reserved.
-    </p>
-</footer> 
-
-<script src="script.js"></script>
-
+    collections.forEach((c) => {
+      const match = filter === 'all' || c.dataset.theme.toLowerCase() === filter.toLowerCase();
+      
+      if (match) {
+        c.style.display = 'block';
+        gsap.fromTo(c, 
+          { opacity: 0, y: 15 }, 
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", clearProps: "all" }
+        );
+      } else {
+        c.style.display = 'none';
+      }
+    });
+    // On mobile, reset scroll position when filtering
+    if(window.innerWidth <= 1024) {
+        cardsWrapper.scrollTo({left: 0, behavior: 'smooth'});
+    }
+    ScrollTrigger.refresh();
+  });
+});
+</script>
 </body>
 </html>
