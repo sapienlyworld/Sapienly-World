@@ -251,13 +251,13 @@ Each month, Sapienly.world publishes a themed collection consisting of two essay
     </div>
 
     <div class="cards">
-      <div class="card panel" data-theme="identity">
+      <div class="card panel" data-theme="identity" data-link="the-guilt-of-becoming-someone-else.html">
         <h3>The Guilt of Becoming Someone Else</h3>
-        <p>Subtle shifts in self and belonging after transitions across places, people, and identity. <br><br>STATUS: INKING...</p>
+        <p>Subtle shifts in self and belonging after transitions across places, people, and identity. <br><br>STATUS: PUBLISHED</p>
       </div>
-      <div class="card panel" data-theme="identity">
+      <div class="card panel" data-theme="identity" data-link="Losing-Fluency-in-Your-Own-Language.html">
         <h3>Losing Fluency in Your Own Language</h3>
-        <p>What happens to our memories when we lose fluency in our mother tongue? <br><br>STATUS: INKING...</p>
+        <p>What happens to our memories when we lose fluency in our mother tongue? <br><br>STATUS: PUBLISHED</p>
       </div>
       <div class="card panel" data-theme="adulthood">
         <h3>Becoming Dependent</h3>
@@ -326,19 +326,18 @@ if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1024)
   });
 }
 
-document.querySelectorAll('.panel').forEach((p,i)=>{
-  // Desktop entry animations
-  if(window.innerWidth > 1024) {
-    gsap.from(p,{rotateY:i%2?8:-8,z:-100,opacity:0,scrollTrigger:{trigger:p,start:'top 80%',once:true}});
-  } else {
-    // Mobile horizontal cards don't need entry animation based on vertical scroll
-    gsap.set(p, {opacity: 1, y: 0});
-  }
-  
-  p.onclick=()=>{
-    document.getElementById('overlay').classList.add('active');
-    document.getElementById('overlayTitle').innerText=p.querySelector('h3')?.innerText || p.innerText;
-  }
+document.querySelectorAll('.panel').forEach((p) => {
+    p.onclick = () => {
+        const link = p.getAttribute('data-link');
+        
+        if (link) {
+            window.location.href = link;
+        } else {
+            // If no data-link exists, show the "Inking" overlay
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('overlayTitle').innerText = p.querySelector('h3').innerText;
+        }
+    };
 });
 
 function closeOverlay(){document.getElementById('overlay').classList.remove('active');}

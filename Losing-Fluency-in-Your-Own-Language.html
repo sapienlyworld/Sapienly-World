@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Losing Fluency in Your Own Language — Sapienly.World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root{
+            --bg:#0a0a0a;
+            --paper:#f6f6f4;
+            --ink:#111;
+            --soft:#aaa;
+            --accent:#ffd23c;
+            --dynamic:#ffdc33;
+        }
+
+        *{box-sizing:border-box}
+        html,body{margin:0;padding:0;scroll-behavior:smooth;font-family:Inter,system-ui;background:var(--paper);color:var(--ink);overflow-x:hidden}
+
+        /* --- EXACT CLONE OF YOUR ORIGINAL NAV --- */
+        nav {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            backdrop-filter: blur(12px);
+            background: rgba(10,10,10,0.5);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        @media(min-width: 1025px) {
+            nav:hover { transform: translateX(-50%) scale(1.02); }
+        }
+
+        .logo{font-weight:900;letter-spacing:.2em;color:var(--accent);font-size:1.5rem;text-decoration:none; white-space: nowrap;}
+        .top-tab{display:flex;gap:2rem;}
+        .top-tab a{color:#fff;text-decoration:none;font-weight:600;padding:.5rem 1rem;border-radius:12px;position:relative;transition:all .3s ease;}
+        .top-tab a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+        .top-tab a:hover::after{transform:scaleX(1);}
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* --- BLOG LAYOUT --- */
+        header {
+            padding: 14rem 1.5rem 4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .category { font-weight: 800; color: #888; letter-spacing: 0.15em; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 1rem; display: block;}
+        h1 { font-size: clamp(2.8rem, 7vw, 4.5rem); line-height: 1; margin: 0; font-weight: 900; color: var(--ink); letter-spacing: -0.02em; }
+        .meta { color: #888; font-size: 0.9rem; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 2rem; font-weight: 500;}
+
+        article { max-width: 800px; margin: 0 auto; padding: 0 1.5rem 8rem; font-size: 1.15rem; color: #222; }
+        article p { margin-bottom: 2rem; }
+        article h2 { font-size: 2rem; margin: 3.5rem 0 1rem; font-weight: 800; color: var(--ink); }
+        
+        blockquote {
+            margin: 3.5rem 0;
+            padding: 0 0 0 2rem;
+            border-left: 4px solid var(--accent);
+            font-style: italic;
+            font-size: 1.5rem;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .references {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .references h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); }
+        .references ul { list-style: none; padding: 0; }
+        .references li { margin-bottom: 1rem; line-height: 1.5; }
+
+        /* --- CURSOR (Exact from home) --- */
+        .cursor, .cursor-outer{position:fixed;border-radius:50%;pointer-events:none;z-index:2000;mix-blend-mode:difference;transform:translate(-50%,-50%);} 
+        .cursor{width:12px;height:12px;background:var(--accent);} 
+        .cursor-outer{width:36px;height:36px;border:2px solid var(--accent);} 
+
+        footer{background:#000;padding:6rem 3rem;font-size:.85rem;color:#aaa;text-align:center;} 
+        .footer-btn {
+    background: #111;
+    color: #fff;
+    padding: .75rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+/* Optional: Add a hover effect to match your home page quality */
+.footer-btn:hover {
+    background: #222;
+    transform: translateY(-2px);
+    color: var(--accent);
+}
+
+        /* --- EXACT MOBILE OVERRIDES FROM HOME --- */
+        @media(max-width:1024px){
+            .cursor, .cursor-outer { display: none !important; }
+            nav { padding: 0.8rem 1.5rem; width: 92%; top: 0.8rem; }
+            .logo { font-size: 1.1rem; }
+            .menu-toggle { display: flex; }
+            
+            .top-tab {
+                position: absolute;
+                top: 110%;
+                right: 0;
+                width: 200px;
+                background: rgba(10,10,10,0.98);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-radius: 15px;
+                gap: 1rem;
+                display: none;
+                border: 1px solid rgba(255,210,60,0.2);
+            }
+            .top-tab.active { display: flex; }
+            header { padding-top: 10rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-outer"></div>
+
+<nav>
+    <a href="index.html" class="logo">SAPIENLY.WORLD</a>
+    <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+    </div>
+    <div class="top-tab" id="nav-links">
+        <a href="index.html">HOME</a>
+        <a href="index.html#facet-collections">COLLECTIONS</a>
+    </div>
+</nav>
+
+<header>
+    <span class="category">Identity in Between</span>
+    <h1>Losing Fluency<br>in Your Own Language</h1>
+    <div class="meta">Vedantham Nrusimha Bharadwaj — 2025</div>
+</header>
+
+<article>
+    <p class="reveal">What happens to our memories when our mother tongue starts to fade?
+        <br><br>
+        The first time I noticed it I felt almost embarrassed. While I was trying to explain a memory of something I had experienced and lived a thousand times in my own language. The words paused and didn't come out. I switched to another language and I noticed the sentence flowed.</p>
+
+    <blockquote>
+        "That was the moment I realized something was not settling. I saw a friction in my mother tongue and I saw I was losing the fluency."
+    </blockquote>
+     <p class="reveal">Not completely nor dramatically but just enough that I can sense a gap.</p>
+
+    <h2 class="reveal">When Words Stop Coming Home</h2>
+    <p class="reveal">Friends back home said I sound different as if I am a complete new person . People here in the new place still noticed me as a person coming from another part of the world and they can see my accent, my pauses and my hesitations. So I felt stuck in between no longer seeing myself as one thing, not yet another.</p>
+
+    <p class="reveal">In the beginning I blamed distance, time for the gap. After all, I hadn't lived in that language for years. But it wasn't just a loss of grammar or vocabulary.
+        <br><br>
+        Certain talks felt harder to access and communicate, Some gave a sense only unless I started switching languages. Certain jokes didn't land in my head the way they used to. It was not that I forgot my past, it was that the way to it had narrowed down.
+        <br><br>
+        Many people who live across cultures report this experience, yet it rarely gets discussed openly. Losing fluency in your first language can feel like losing a piece of yourself quietly, without permission.</p>
+
+    <h2 class="reveal">Language Is Not Just Communication</h2>
+    <blockquote>I once wanted to tell a friend how it feels after all this years , while i couldn't express i switched the language and i had a say which felt more meaningful. Language is not a medium of knowledge its just a means of communication if you can see others are understanding the message then its all forgiven there is nothing to feel embarrassed about.</blockquote>
+        <p class="reveal">
+        Psychology has long shown that language is deeply tied to memory.
+        <br><br>
+        Research on autobiographical memory suggests that memories are often encoded in the language in which they were originally experienced. This means that recalling a memory can be easier when using the same language in which it was formed (Marian & Neisser, 2000).
+        <br><br>
+        In simple language it acts like a key and when the key changes access becomes harder. This phenomenon is known as <strong>language dependent memory.</strong> Studies (Schrauf & Rubin, 2000). Shows that memories from childhood are more easily recalled in the mother tongue while later memories are more accessible in the language used at that time.</p>
+       <h2 class="reveal">What the Brain Is Doing</h2>
+    <p class="reveal">Use it or lose efficieny, The brain prioritizes what it uses most, The more you train the more efficient you become as it strengthens neural pathways that are used often and weakens those that are not.
+        <br><br>
+        From a neuroscience perspective, this makes sense. Language networks in the brain are closely connected to regions involved in emotion and memory, such as the hippocampus and amygdala. So when a language is used less it weakens the neural pathways connecting their emotions and memory and makes it less efficient. Neuroplasticity (The brain’s ability to form and reorganize synaptic connections in response to learning or experience (Kolb & Whishaw, 1998). It allows us to learn new languages and adapt to new environments
+        <br><br>
+        But it also means the older pathways are reallocated but not lost, showing that early learned languages remain neurologically stable even when fluency declines.(Pallier et al., 2003).
+        <br><br>
+        This explains why a song, a smell, or a single word can suddenly unlock an entire emotional world in a language you thought you had lost.</p>
+    <h2 class="reveal">The Emotional Weight of Forgetting</h2>
+    <p class="reveal">Losing fluency in your first language can feel like losing the connection from your younger self. Conversations with family and firends feel slightly misaligned. Emotions are now felt harder to translate. You may find yourself thinking in one language and feeling it in another.
+        <br><br>
+        From Neuroscience and psychology lenses it can be understood as it isn't an identity loss but it is layering the old self. Research on bilingual identity suggests that different languages can activate different aspects of the self, including values, emotional tone, and ways of relating to others (Pavlenko, 2005).</p>
+     <h2 class="reveal">Not Gone Just Stored Differently</h2>
+    <p class="reveal">Over time, I learned that my first language hadn't gone.
+        <br><br>
+        It's still there in dreams, in moments of strong emotions, in reflexes, Losing fluency is not a failure or an embarassment . It is evidence that your life has expanded across contexts and cultures.</p>
+    <h2 class="reveal">Conclusion</h2>
+    <p class="reveal">This experience is common among migrants, people who have lived and learned multiple languages , and anyone who has lived between worlds. Yet it often carries unnecessary shame and an embarrasment that forgetting words means forgetting roots NO , It doesn’t.</p>
+        <blockquote>Neuroscience and psychology show us that this process is normal, adaptive, and reversible in fragments. And your past is not lost, it is stored differently now.</blockquote>
+    
+    <section class="references">
+        <h3>References</h3>
+        <ul>
+            <li>• Marian, V ., & Neisser, U. (2000). Language-dependent recall of autobiographical memories. Journal of Experimental Psychology.</li>
+            <li>• Schrauf, R. W., & Rubin, D. C. (2000). Internal languages of retrieval. Applied Cognitive Psychology.</li>
+            <li>• Pavlenko, A. (2005). Bilingualism and Thought.</li>
+            <li>• Pallier, C. et al. (2003). Brain imaging of language plasticity. Cerebral Cortex.</li>
+            <li>• Kolb, B., & Whishaw, I. Q. (1998). Brain plasticity and behavior.</li>
+        </ul>
+    </section>
+    <section class="references">
+        <h3>Note</h3>
+        <ul>
+            <li>• Sapienly.world exists to make space for these experiences not to diagnose, not to advise, but to remind people that this friction is shared. Psychology and neuroscience help us understand why it happens. Stories help us feel less alone while it does.</li>
+            <li>• It is not intended as medical, psychological, or mental health advice, and should not be used as a substitute for professional consultation, diagnosis, or treatment.</li>
+            <li>• All stories reflect personal experiences and interpretations of psychological research. If you are experiencing distress or require professional support, please seek a qualified healthcare provider.</li>
+            <li>• This article is a narrative reflection informed by psychological research. It does not diagnose, label, or treat any condition </li>
+            <li>• If this content brings up difficult emotions, consider reaching out to a trusted person or mental health professional in your region.</li>
+        </ul>
+    </section>
+</article>
+
+<footer id="contact">
+  <p>Disclaimer: All content is a narrative reflection informed by existing research and does not diagnose, label, or treat any condition. It should not be used as a substitute for professional consultation, diagnosis, or treatment. If any content evokes distress, readers are encouraged to seek support from a trusted person or a qualified healthcare professional.
+<br><br>This site and its essays are written and maintained by Vedantham Nrusimha Bharadwaj - Join my space to feel a little less alone, while exploring the deeper questions of the brain and mind - one story at a time.</p>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+    <a href="mailto:sapienly.world@gmail.com" class="footer-btn">sapienly.world@gmail.com</a>
+    <a href="https://instagram.com/sapienly.world/" target="_blank" class="footer-btn">Instagram</a>
+  </div>
+  <p>© 2025 Sapienly.world. All rights reserved.</p>
+</footer>
+
+<script>
+    // Exact Navbar Logic
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+    mobileMenu.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+    // Exact Cursor Logic
+    const cursor = document.querySelector('.cursor');
+    const cursorOuter = document.querySelector('.cursor-outer');
+    
+    if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1024) {
+        cursor.style.display = "none";
+        cursorOuter.style.display = "none";
+    } else {
+        window.addEventListener('mousemove', e => {
+            gsap.to(cursor, {x: e.clientX, y: e.clientY, duration: .15});
+            gsap.to(cursorOuter, {x: e.clientX, y: e.clientY, duration: .25});
+        });
+    }
+
+    // GSAP Scroll Reveal
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('.reveal').forEach(el => {
+        gsap.from(el, {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: el,
+                start: "top 90%",
+                toggleActions: "play none none none"
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
